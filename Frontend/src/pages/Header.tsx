@@ -1,30 +1,28 @@
-
-
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function Header() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchType, setSearchType] = useState("name"); // Default search type is "name"
 
-  const handleSearch = async (event: React.FormEvent) => {
-    event.preventDefault(); // Prevent the form from being submitted in the traditional way
+  const handleSearch = async (blog: React.FormEvent) => {
+    blog.preventDefault(); // Prevent the form from being submitted in the traditional way
     try {
-      const response = await fetch(`http://localhost:8090/router/event/search?name=${encodeURIComponent(searchTerm)}&location=${encodeURIComponent(searchTerm)}`);
+      const response = await fetch(`http://localhost:8081/api/blogs?q=${searchTerm}`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      if (data) {
-        navigate(`/highlights/${data.eventId}`);
+      if (data && data.length > 0) {
+        navigate(`/BlogDetails/${data[0].id}`); // Navigate to the first blog that matches the search
       } else {
-        console.error("No events found for the search term:", searchTerm);
+        console.error("No blogs found for the search term:", searchTerm);
       } 
     } catch (error) {
-      console.error("Error fetching events:", error);
+      console.error("Error fetching blogs:", error);
     }
   };
+
 
   return (
     <>
@@ -50,7 +48,6 @@ export default function Header() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </form>
-            <button type="submit" className="btn btn-primary me-2 LoginButton">Admin</button>
           </div>
           <div className="row justify-content-center Eventplanner">
           MyBlogs</div>

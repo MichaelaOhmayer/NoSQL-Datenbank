@@ -1,17 +1,38 @@
 import { Link } from "react-router-dom";    
+import { useEffect, useState } from "react";
+import CreateBlog from "../Modals/createBlog";
+import DeleteBlog from "../Modals/deleteBlog";
+
+interface BlogElementProps {
+    blog: BlogData;
+}
+
+interface BlogData {
+    uuid: string;
+    author: string;
+    content: string;
+    title: string;
+    visitors: string;
+    createdAt: string;
+}
 
 
-function BlogElement() {
+
+function BlogElement({blog}: BlogElementProps) {
+
+    if (!blog) return null;
+
+    const [showModal1] = useState(true);
+
 
     return (
-<>
 
+<>
 <div className="col-md-4 justify-content-center"> 
     <div className="card border-2 justify-content-center mb-3">
         <div className="card-body">
-            <p>Titel: Dinosaurier</p>
-            <p>Beschreibung: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-            <p>Datum: 11.11.11</p>
+            <p>Titel: {blog.title}</p>
+            <p>Beschreibung: {blog.content}</p>
             <div className="mt-3 mb-3">
                 <Link to={`/BlogDetails`}>
                     <button className="btn btn-primary me-2 LoginButton">
@@ -19,6 +40,14 @@ function BlogElement() {
                     </button>
                 </Link>
             </div>
+            <button
+              type="button"
+              className="btn btn-primary LoginButton"
+              data-bs-toggle="modal"
+              data-bs-target={`#staticBackdrop-${blog.uuid}`}
+            
+            >Löschen</button>
+            {showModal1 && <DeleteBlog uuid={blog.uuid} />}
         </div>
     </div>
 </div>
@@ -30,6 +59,40 @@ function BlogElement() {
 
 export default function Blogs () {
 
+    const [blogData, setBlogData] = useState<BlogData[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+
+    useEffect(() => {
+        async function fetchBlogData() {
+            try {
+                const response = await fetch("http://localhost:8081/api/blogs", {
+                  method: "GET",
+                });
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setBlogData(data);
+                setLoading(false);
+              } catch (error) {
+                console.error("Es konnten keine Events geladen werden", error);
+                setLoading(false);
+              }
+            }
+            console.log({Blogs: blogData});
+
+            fetchBlogData();
+        }, []);
+      
+        if (loading) {
+          return <div>Loading...</div>;
+        }
+      
+        if (error) {
+          return <div>Error: {error}</div>;
+        }
+
     return (
         <>
         <div className="container">
@@ -39,13 +102,11 @@ export default function Blogs () {
                 </div>
             </div>
             <div className="row">
-                <BlogElement />
-                <BlogElement />
-                <BlogElement />
-                <BlogElement />
-                <BlogElement />
-                <BlogElement />
+                {blogData.map((blog, index) => (
+                <BlogElement key={index} blog={blog}/>
+                ))}
             </div>
+            <div className="d-flex justify-content-center"><CreateBlog /></div>
         </div>
         </>
     )

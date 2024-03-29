@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 function Comment({ text, isMyComment }) {
     const alignment = isMyComment ? 'justify-content-end' : 'justify-content-start';
@@ -16,14 +17,37 @@ function Comment({ text, isMyComment }) {
 }
 
 export default function BlogDetails() {
+    const { uuid } = useParams();
+    const [blog, setBlog] = useState(null);
     const [comments, setComments] = useState(['Dinos sind so cool ich muss mehr sehen!']);
     const [myComments, setMyComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    useEffect(() => {
+        const fetchBlog = async () => {
+            try {
+                const response = await fetch(`http://localhost:8081/api/blogs/${uuid}`);
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const data = await response.json();
+                setBlog(data);
+            } catch (error) {
+                console.error("Error fetching blog:", error);
+            }
+        };
+
+        fetchBlog();
+    }, [uuid]);
+
+    const handleSubmit = (blog) => {
+        blog.preventDefault();
         setMyComments([...myComments, newComment]);
         setNewComment('');
+    }
+
+    if (!blog) {
+        return <div>Loading...</div>;
     }
 
     return (
@@ -31,10 +55,9 @@ export default function BlogDetails() {
             <div className="containerSmall">
                 <div className="row justify-content-center">
                     <div className="col-md-12">
-                        <h3>Titel: Dinosaurier</h3>
-                        <p>Beschreibung: <br />
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                        <p>Datum: 11.11.11</p>
+                        <h3>Titel: {blog.title}</h3>
+                        <p>Beschreibung:</p> <br />
+                        <p>{blog.content}</p>
 
                         <div className="mt-5">
                             <h4>Kommentare:</h4>
