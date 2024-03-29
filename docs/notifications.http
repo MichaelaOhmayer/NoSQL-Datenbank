@@ -1,0 +1,13 @@
+@url = http://127.0.0.1:8081/api
+@blog_id = 5009bf92-ae97-4a0c-bba9-361b6e029f37
+
+###
+### Get new blogs ( created less than 5 minutes ago )
+###
+GET {{url}}/blogs/notifications
+
+
+###
+### Get new comments for blog ( created less than 5 minutes ago )
+###
+GET {{url}}/blogs/{{blog_id}}/comments/notifications

@@ -1,0 +1,27 @@
+@url = http://127.0.0.1:8081/api
+@blog_id = 5009bf92-ae97-4a0c-bba9-361b6e029f37
+@comment_id = 62440f98-9a07-4b67-91aa-5e487573db1b
+@adminCreds = <secret>
+
+###
+### Get all comments for a blog
+###
+GET {{url}}/blogs/{{blog_id}}/comments
+Accept: application/json
+
+###
+### Create a comment
+###
+POST {{url}}/blogs/{{blog_id}}/comments
+Content-Type: application/json
+
+{
+  "author": "Michael Myers",
+  "content": "You can't kill the boogeyman."
+}
+
+###
+### Delete a comment
+###
+DELETE {{url}}/blogs/{{blog_id}}/comments/{{comment_id}}
+Authorization: ApiKey {{adminCreds}}

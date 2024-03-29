@@ -1,0 +1,36 @@
+@url = http://127.0.0.1:8081/api
+@adminCreds = <secret>
+
+###
+### Get all blogs
+###
+GET {{url}}/blogs
+
+###
+### Search by blog title
+GET {{url}}/blogs
+
+###
+### Get blog by id
+###
+@uuid = 943176de-6a0c-49f0-8030-07812c9cab1c
+
+GET {{url}}/blogs/{{uuid}}
+
+###
+### Write a blog entry
+###
+POST {{url}}/blogs
+Content-Type: application/json
+
+{
+  "author": "Freddy Krueger",
+  "title": "A Strange Nightmare",
+  "content": "Nancy, it's only a dream!"
+}
+
+###
+### Delete a blog by id
+###
+DELETE {{url}}/blogs/{{uuid}}
+Authorization: ApiKey {{adminCreds}}
