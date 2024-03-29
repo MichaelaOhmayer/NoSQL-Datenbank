@@ -5,9 +5,11 @@
 ### Get new blogs ( created less than 5 minutes ago )
 ###
 GET {{url}}/blogs/notifications
+# http://localhost:8081/api/blogs/notifications
 
 
 ###
 ### Get new comments for blog ( created less than 5 minutes ago )
 ###
 GET {{url}}/blogs/{{blog_id}}/comments/notifications
+# http://localhost:8081/api/blogs/$(blog.uuid)/notifications

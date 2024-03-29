@@ -5,28 +5,32 @@
 ### Get all blogs
 ###
 GET {{url}}/blogs
+# http://localhost:8081/api/blogs
 
 ###
 ### Search by blog title
-GET {{url}}/blogs
+GET {{url}}/blogs?q=Hallo
+# http://localhost:8081/api/blogs?q=
 
 ###
 ### Get blog by id
 ###
-@uuid = 943176de-6a0c-49f0-8030-07812c9cab1c
+@uuid = 71026c3f-82b4-4f77-81c4-417f29455d88
 
 GET {{url}}/blogs/{{uuid}}
+# http://localhost:8081/api/blogs$(blog.uuid)
 
 ###
 ### Write a blog entry
 ###
 POST {{url}}/blogs
 Content-Type: application/json
+# http://localhost:8081/api/blogs
 
 {
-  "author": "Freddy Krueger",
-  "title": "A Strange Nightmare",
-  "content": "Nancy, it's only a dream!"
+  "author": "Anonym",
+  "title": "Hallo",
+  "content": "Das ist ein Hallo"
 }
 
 ###
@@ -34,3 +38,4 @@ Content-Type: application/json
 ###
 DELETE {{url}}/blogs/{{uuid}}
 Authorization: ApiKey {{adminCreds}}
+# http://localhost:8081/api/blogs/$(blog.uuid)

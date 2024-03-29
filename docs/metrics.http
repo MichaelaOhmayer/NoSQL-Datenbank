@@ -4,3 +4,4 @@
 ### Metrics
 ###
 GET {{url}}/metrics
+# http://localhost:8081/api/metrics

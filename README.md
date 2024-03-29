@@ -21,11 +21,3 @@ docker compose up --build
 ## Testing the API
 
 You can use the http files in `docs` to send test api requests to the application's API server.
-
-### Start Redis Separatly
-
-You can start Redis separatly for local testing. 
-
-```bash
-docker run -p 6379:6379 redis 
-```

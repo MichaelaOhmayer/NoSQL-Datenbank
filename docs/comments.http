@@ -1,6 +1,6 @@
 @url = http://127.0.0.1:8081/api
-@blog_id = 5009bf92-ae97-4a0c-bba9-361b6e029f37
-@comment_id = 62440f98-9a07-4b67-91aa-5e487573db1b
+@blog_id = db0c8943-1456-4545-bdbe-02c1e4989169
+@comment_id = 3222225e-5831-40a0-b194-a822236ad06a
 @adminCreds = <secret>
 
 ###
@@ -8,12 +8,14 @@
 ###
 GET {{url}}/blogs/{{blog_id}}/comments
 Accept: application/json
+# http://localhost:8081/api/blogs/$(blog.uuid)/comments
 
 ###
 ### Create a comment
 ###
 POST {{url}}/blogs/{{blog_id}}/comments
 Content-Type: application/json
+# http://localhost:8081/api/blogs$(blog.uuid)/comments
 
 {
   "author": "Michael Myers",
@@ -25,3 +27,4 @@ Content-Type: application/json
 ###
 DELETE {{url}}/blogs/{{blog_id}}/comments/{{comment_id}}
 Authorization: ApiKey {{adminCreds}}
+# http://localhost:8081/api/blogs$(blog.uuid)/comments/$(comment.uuid)

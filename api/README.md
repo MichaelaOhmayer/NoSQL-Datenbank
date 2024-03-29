@@ -9,13 +9,6 @@ pip install -r requirements.txt
 
 ## Start Locally
 
-Start the Redis instance with docker compose.
-
-```bash
-cd docker
-docker-compose up
-```
-
 Run the backend. 
 It will auto-rebuild on changes to the code.
 
