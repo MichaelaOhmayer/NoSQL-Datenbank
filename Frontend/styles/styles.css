@@ -1,0 +1,99 @@
+.LoginButton {
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: #060C5A;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+}
+
+.LoginButton:hover {
+    background-color: rgb(78, 136, 202);
+    color: #060C5A;
+}
+
+.container1 {
+    width: 750px;
+}
+
+.Headerpills {
+    color: #1c2491;
+    font-weight: bold;
+    font-size: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none; 
+}
+
+.Headerpills:hover
+ { 
+    color: rgb(7, 21, 36);
+    text-decoration: underline; 
+}
+
+.Headerpills:focus
+ { 
+    color: rgb(7, 21, 36);
+    text-decoration: underline; 
+}
+
+#Impressum {
+    font-weight: bold;
+    font-size: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none; 
+}
+
+
+
+
+.Create{
+    background-color: #920404;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    border-color: #920404;
+}
+
+.Create:hover {
+    background-color: rgb(59, 9, 9);
+    color: #c4afaf;
+    border-color: rgb(59, 9, 9);
+}
+
+.Reiter:focus{
+    text-decoration: underline;
+    font-size: larger;
+}
+
+.toast-bottom-right {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .Liebe {
+    font-size: 30px;
+    font-family: "Raleway", sans-serif;
+}
+
+.Eventplanner {
+    font-size: 40px;
+    font-family: "  ";
+    letter-spacing: 6px;
+
+}
+
+.containerSmall {
+    max-width: 700px;
+    margin: 0 auto; 
+}
+
+
+.Anzahl {
+    font-size: 200px;
+    font-family: "Raleway", sans-serif;
+}

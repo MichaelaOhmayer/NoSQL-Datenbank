@@ -1,0 +1,76 @@
+
+
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+export default function Header() {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchType, setSearchType] = useState("name"); // Default search type is "name"
+
+  const handleSearch = async (event: React.FormEvent) => {
+    event.preventDefault(); // Prevent the form from being submitted in the traditional way
+    try {
+      const response = await fetch(`http://localhost:8090/router/event/search?name=${encodeURIComponent(searchTerm)}&location=${encodeURIComponent(searchTerm)}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      if (data) {
+        navigate(`/highlights/${data.eventId}`);
+      } else {
+        console.error("No events found for the search term:", searchTerm);
+      } 
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+  return (
+    <>
+      <div className="container">
+        <header className="py-3 mb-2 border-bottom">
+          <div className="container d-flex flex-wrap justify-content-center">
+            <Link to="/" className="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
+              <svg className="bi me-2" width="40" height="32"><use href="#bootstrap"></use></svg>
+              <img
+                src="../../Logo.png"
+                alt="Logo"
+                className="img-fluid"
+                id="Logo"
+              />
+            </Link>
+            <form className="col-12 col-lg-auto mb-3 mb-lg-0" role="search" onSubmit={handleSearch}>
+              <input
+                type="search"
+                className="form-control"
+                placeholder="Search..."
+                aria-label="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </form>
+            <button type="submit" className="btn btn-primary me-2 LoginButton">Admin</button>
+          </div>
+          <div className="row justify-content-center Eventplanner">
+          MyBlogs</div>
+        </header>
+      </div>
+  
+      <div className="container mb-5">
+        <div className="row">
+          <nav className="navbar justify-content-center">
+            <ul className="nav">
+              <li className="nav-item px-3">
+                <Link to="/" className="nav-link link-body-emphasis px-2 active Reiter" aria-current="page">Blogs</Link>
+              </li>
+              <li className="nav-item px-3">
+                <Link to="/Statistics" className="nav-link link-body-emphasis px-2 Reiter">Statistiken</Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </>
+  );
+}
