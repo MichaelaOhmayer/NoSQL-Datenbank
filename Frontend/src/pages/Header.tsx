@@ -12,6 +12,7 @@ export default function Header() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+      console.log("Response:", response);
       const data = await response.json();
       if (data && data.length > 0) {
         navigate(`/BlogDetails/${data[0].id}`); // Navigate to the first blog that matches the search

@@ -100,8 +100,7 @@ export default function Blogs () {
                 <div className="row justify-content-center">
                     <div className="mb-4"></div>
                     <div className="col-md-12">
-                        <h3 className="text-center mb-5">Neuen Blog erstellen</h3>
-                    </div>
+                                            </div>
                 </div>
                 <div className="row">
                     {blogData.map((blog, index) => (

@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function AddComments() {
-  const { uuid } = useParams<{ uuid: string }>();
+interface AddCommentsProps {
+  uuid: string;
+}
+
+export default function AddComments({ uuid }: AddCommentsProps) {
+  const navigate = useNavigate();
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +19,7 @@ export default function AddComments() {
       setShowToast(true);
       return;
     }
-    window.location.reload();
+    
     setIsLoading(true);
 
     try {
@@ -37,9 +41,7 @@ export default function AddComments() {
       setContent("");
       setAuthor("");     
 
-      document.getElementById("staticBackdrop")?.classList.remove("show");
-      document.body.classList.remove("modal-open");
-      document.querySelector(".modal-backdrop")?.remove();
+      navigate(`/blogs/${uuid}`); // Redirect to blog details page after adding comment
     } catch (error) {
       console.error("Error adding comment:", error);
     } finally {
