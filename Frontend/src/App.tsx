@@ -5,11 +5,10 @@ import Blogs from './pages/Blogs';
 import BlogDetails from './pages/BlogDetails';
 import Stats from './pages/Stats';
 
-
 function AppRouter() {
   return (
     <Router>
-        <Header />
+      <Header />
       <Routes>
         <Route path="/" element={<Blogs />} />
         <Route path="/BlogData/:uuid" element={<BlogDetails />} />

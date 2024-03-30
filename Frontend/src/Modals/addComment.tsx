@@ -26,7 +26,7 @@ export default function AddComments() {
         },
         body: JSON.stringify({
           content: content,
-          author: author,
+          author: author || "Anonymous",
         }),
       });
 

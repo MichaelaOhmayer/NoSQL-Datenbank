@@ -23,33 +23,41 @@ export default function BlogDetails() {
     const [blog, setBlog] = useState<BlogData | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
 
-    const fetchBlog = async () => {
-        try {
-            const blogResponse = await fetch(`http://localhost:8081/api/blogs/${uuid}`);
-            if (!blogResponse.ok) {
-                throw new Error("Network response was not ok");
-            }
-            const blogData = await blogResponse.json();
-            setBlog(blogData);
+    useEffect(() => {
+        async function fetchBlog() {
+            try{
+                const response = await fetch(`http://localhost:8081/api/blogs/${uuid}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        title: blog?.title,
+                        content: blog?.content,
+                        author: blog?.author,
+                        visitors: blog?.visitors,
+                    }),
+                });
 
-            const commentsResponse = await fetch(`http://localhost:8081/api/blogs/${uuid}/comments`);
-            if (!commentsResponse.ok) {
-                throw new Error("Network response was not ok");
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const data = await response.json();
+                setBlog(data);
+
+                const CommentsResponse = await fetch(`http://localhost:8081/api/blogs/${uuid}/comments`);
+                if (!CommentsResponse.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const commentsData: Comment[] = await CommentsResponse.json();
+                setComments(commentsData);
+            } catch (error) {
+                console.error("Error fetching blog:", error);
             }
-            const commentsData: Comment[] = await commentsResponse.json();
-            setComments(commentsData);
-        } catch (error) {
-            console.error("Error fetching blog:", error);
         }
-    };
 
-    useEffect (() => {
         fetchBlog();
     }, [uuid]);
-
-    const handleMoreClick = async () => {
-        await fetchBlog();
-    };
 
     if (!blog) {
         return <div>Loading...</div>;
@@ -63,21 +71,20 @@ export default function BlogDetails() {
                 <p>{blog.author}</p>
                 <p>{blog.visitors}</p>
                 <p></p>
-                <h3>Comments</h3>
+                <h3>Kommentare</h3>
                 {comments.length > 0 && comments.map((comment, index) => (
                     <div key={index}>
+                        <p>{comment.author}</p>
                         <p>{comment.content}</p>
                     </div>
                 ))}
             </div>
             <div className="row">
-                <button onClick={handleMoreClick}>More</button>
                 <AddComments/>
             </div>
         </div>
     );
 }
-
 
 
 /*
