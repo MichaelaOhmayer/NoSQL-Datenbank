@@ -26,19 +26,7 @@ export default function BlogDetails() {
     useEffect(() => {
         async function fetchBlog() {
             try{
-                const response = await fetch(`http://localhost:8081/api/blogs/${uuid}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        title: blog?.title,
-                        content: blog?.content,
-                        author: blog?.author,
-                        visitors: blog?.visitors,
-                    }),
-                });
-
+                const response = await fetch(`http://localhost:8081/api/blogs/${uuid}`);
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
