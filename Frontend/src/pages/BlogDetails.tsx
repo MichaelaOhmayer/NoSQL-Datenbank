@@ -1,6 +1,80 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import AddComments from '../Modals/addComment';
 
+interface Comment {
+    uuid: string;
+    author: string;
+    content: string;
+    created: string;
+}
+
+interface BlogData {
+    uuid: string;
+    author: string;
+    content: string;
+    title: string;
+    visitors: number;
+    created: string;
+}
+
+export default function BlogDetailsMichi() {
+    const { uuid } = useParams<{ uuid: string }>();
+    const [blogMichi, setBlogMichi] = useState<BlogData | null>(null);
+    const [commentsMichi, setCommentsMichi] = useState<Comment[]>([]);
+
+    useEffect (() => {
+        async function fetchBlogMichi() {
+            try {
+                const blogResponseMichi = await fetch(`http://localhost:8081/api/blogs/${uuid}`);
+                if (!blogResponseMichi.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const blogDataMichi = await blogResponseMichi.json();
+                setBlogMichi(blogDataMichi);
+
+                const commentsResponseMichi = await fetch(`http://localhost:8081/api/blogs/${uuid}/comments`);
+                if (!commentsResponseMichi.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const commentsDataMichi: Comment[] = await commentsResponseMichi.json();
+                setCommentsMichi(commentsDataMichi);
+            } catch (error) {
+                console.error("Error fetching blog:", error);
+            }
+        }
+        fetchBlogMichi();
+    }, [uuid]);
+
+    if (!blogMichi) {
+        return <div>Loading...</div>;
+    }
+
+    return (
+        <div className="container">
+            <div className="row">
+                <h3>{blogMichi.title}</h3>
+                <p>{blogMichi.content}</p>
+                <p>{blogMichi.author}</p>
+                <p>{blogMichi.visitors}</p>
+                <p></p>
+                <h3>Comments</h3>
+                {commentsMichi.map((comment, index) => (
+                    <div key={index}>
+                        <p>{comment.content}</p>
+                    </div>
+                ))}
+            </div>
+            <div className="row">
+            <AddComments/>
+            </div>
+        </div>
+    );
+}
+
+
+
+/*
 function Comment({ text, isMyComment }) {
     const alignment = isMyComment ? 'justify-content-end' : 'justify-content-start';
     return (
@@ -80,3 +154,4 @@ export default function BlogDetails() {
         </>
     )
 }
+*/

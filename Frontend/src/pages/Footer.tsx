@@ -5,7 +5,7 @@ export default function Footer() {
       <div className="container mt-5">
         <footer className="row justify-content-between py-3 my-4 border-top">
           <div className="col-auto mb-3 mb-md-0 text-body-secondary">
-            © 2024 Eventplanner, Inc
+            © 2024 MyBlogs, Inc
           </div>
           
           <div 

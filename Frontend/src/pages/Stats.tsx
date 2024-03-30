@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface BlogData {
     blogs: number;
@@ -14,7 +14,7 @@ export default function Stats() {
     useEffect(() => {
         async function fetchBlogData() {
             try {
-                const response = await fetch("http://localhost:8081/api/metrics", {
+                const response = await fetch("/api/metrics", {
                     method: "GET",
                 });
                 if (!response.ok) {

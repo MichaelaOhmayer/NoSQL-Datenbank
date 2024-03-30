@@ -18,7 +18,7 @@ GET {{url}}/blogs?q=Hallo
 @uuid = 71026c3f-82b4-4f77-81c4-417f29455d88
 
 GET {{url}}/blogs/{{uuid}}
-# http://localhost:8081/api/blogs$(blog.uuid)
+# http://localhost:8081/api/blogs/${uuid}
 
 ###
 ### Write a blog entry
@@ -38,4 +38,4 @@ Content-Type: application/json
 ###
 DELETE {{url}}/blogs/{{uuid}}
 Authorization: ApiKey {{adminCreds}}
-# http://localhost:8081/api/blogs/$(blog.uuid)
+# http://localhost:8081/api/blogs/${uuid}

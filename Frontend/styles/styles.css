@@ -38,6 +38,11 @@
     text-decoration: underline; 
 }
 
+.logo-small {
+    width: 150px; /* Ändern Sie die Breite je nach gewünschter Größe */
+    height: auto; /* Behält das Seitenverhältnis bei */
+  }  
+
 #Impressum {
     font-weight: bold;
     font-size: 15px;

@@ -34,7 +34,7 @@ export default function Header() {
               <img
                 src="../../Logo.png"
                 alt="Logo"
-                className="img-fluid"
+                className="img-fluid logo-small"
                 id="Logo"
               />
             </Link>
@@ -50,7 +50,7 @@ export default function Header() {
             </form>
           </div>
           <div className="row justify-content-center Eventplanner">
-          MyBlogs</div>
+          Blogs</div>
         </header>
       </div>
   

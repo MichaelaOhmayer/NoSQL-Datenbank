@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Toast } from 'react-bootstrap';
 
 export default function CreateBlog() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [author, setAuthor] = useState("");
-    const [created, setCreated] = useState("");
     const [showToast, setShowToast] = useState(false);
     const [successToast, setSuccessToast] = useState(false);
 
     const handleSubmit = async () => {
-        if (!title || !content || !author || !created) {
+        if (!title || !content) {
             setShowToast(true);
             return;
         }
@@ -24,7 +23,6 @@ export default function CreateBlog() {
                     title: title,
                     content: content,
                     author: author,
-                    created: created,
                 }),
             });
             if (response.ok) {
@@ -32,7 +30,6 @@ export default function CreateBlog() {
                 setTitle("");
                 setContent("");
                 setAuthor("");
-                setCreated("");
             } else {
                 console.error("Failed to create event:", response.statusText);
             }
@@ -51,7 +48,7 @@ export default function CreateBlog() {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Event erstellen</h1>
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">Blog erstellen</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
@@ -61,30 +58,23 @@ export default function CreateBlog() {
                                     <div className="col-sm-12 col-md-8">
                                         <form className='form'>
                                             <div className="form-group row mb-2">
-                                                <label htmlFor="nameInput" className="col-sm-3 col-form-label" id='label'>Titel</label>
+                                                <label htmlFor="nameInput" className="col-sm-3 col-form-label" id='label'>Titel*</label>
                                                 <div className="col-sm-9">
-                                                    <input type="text" className="form-control" id="nameInput" placeholder="Name" value={title} onChange={(e) => setTitle(e.target.value)} />
+                                                    <input type="text" className="form-control" id="nameInput" placeholder="Titel des Blogs" value={title} onChange={(e) => setTitle(e.target.value)} />
                                                 </div>
                                             </div>
                                             <div className="form-group row mb-2">
-                                                <label htmlFor="descriptionInput" className="col-sm-3 col-form-label" id='label'>Beschreibung</label>
+                                                <label htmlFor="descriptionInput" className="col-sm-3 col-form-label" id='label'>Inhalt*</label>
                                                 <div className="col-sm-9">
-                                                    <textarea className="form-control" id="descriptionInput" placeholder="Beschreibung" rows={3} value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+                                                    <textarea className="form-control" id="descriptionInput" placeholder="Inhalt des Blogs" rows={3} value={content} onChange={(e) => setContent(e.target.value)}></textarea>
                                                 </div>
                                             </div>
                                             <div className="form-group row mb-2">
-                                                <label htmlFor="locationInput" className="col-sm-3 col-form-label">Author</label>
+                                                <label htmlFor="locationInput" className="col-sm-3 col-form-label">Autor</label>
                                                 <div className="col-sm-9">
-                                                    <input type="text" className="form-control" id="locationInput" placeholder="Ort" value={author} onChange={(e) => setAuthor(e.target.value)} />
+                                                    <input type="text" className="form-control" id="locationInput" placeholder="(kein Pflichtfeld! Keine Eingabe: Anonym)" value={author} onChange={(e) => setAuthor(e.target.value)} />
                                                 </div>
                                             </div>
-                                            <div className="form-group row mb-2">
-                                                <label htmlFor="dateInput" className="col-sm-3 col-form-label" id='label'>Datum</label>
-                                                <div className="col-sm-9">
-                                                    <input type="date" className="form-control" id="dateInput" value={created} onChange={(e) => setCreated(e.target.value)} />
-                                                </div>
-                                            </div>
-                                            
                                             <button type="button" className="btn btn-primary LoginButton mt-3" data-bs-dismiss="modal" onClick={handleSubmit}>Speichern</button>
                                         </form>
                                     </div>

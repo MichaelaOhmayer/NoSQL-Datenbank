@@ -8,14 +8,14 @@
 ###
 GET {{url}}/blogs/{{blog_id}}/comments
 Accept: application/json
-# http://localhost:8081/api/blogs/$(blog.uuid)/comments
+# http://localhost:8081/api/blogs/${blog.uuid}/comments
 
 ###
 ### Create a comment
 ###
 POST {{url}}/blogs/{{blog_id}}/comments
 Content-Type: application/json
-# http://localhost:8081/api/blogs$(blog.uuid)/comments
+# http://localhost:8081/api/blogs/${blog.uuid}/comments
 
 {
   "author": "Michael Myers",
@@ -27,4 +27,4 @@ Content-Type: application/json
 ###
 DELETE {{url}}/blogs/{{blog_id}}/comments/{{comment_id}}
 Authorization: ApiKey {{adminCreds}}
-# http://localhost:8081/api/blogs$(blog.uuid)/comments/$(comment.uuid)
+# http://localhost:8081/api/blogs/${blog.uuid}/comments/${comment.uuid}
