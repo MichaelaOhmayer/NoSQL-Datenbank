@@ -18,55 +18,61 @@ interface BlogData {
     created: string;
 }
 
-export default function BlogDetailsMichi() {
+export default function BlogDetails() {
     const { uuid } = useParams<{ uuid: string }>();
-    const [blogMichi, setBlogMichi] = useState<BlogData | null>(null);
-    const [commentsMichi, setCommentsMichi] = useState<Comment[]>([]);
+    const [blog, setBlog] = useState<BlogData | null>(null);
+    const [comments, setComments] = useState<Comment[]>([]);
+
+    const fetchBlog = async () => {
+        try {
+            const blogResponse = await fetch(`http://localhost:8081/api/blogs/${uuid}`);
+            if (!blogResponse.ok) {
+                throw new Error("Network response was not ok");
+            }
+            const blogData = await blogResponse.json();
+            setBlog(blogData);
+
+            const commentsResponse = await fetch(`http://localhost:8081/api/blogs/${uuid}/comments`);
+            if (!commentsResponse.ok) {
+                throw new Error("Network response was not ok");
+            }
+            const commentsData: Comment[] = await commentsResponse.json();
+            setComments(commentsData);
+        } catch (error) {
+            console.error("Error fetching blog:", error);
+        }
+    };
 
     useEffect (() => {
-        async function fetchBlogMichi() {
-            try {
-                const blogResponseMichi = await fetch(`http://localhost:8081/api/blogs/${uuid}`);
-                if (!blogResponseMichi.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                const blogDataMichi = await blogResponseMichi.json();
-                setBlogMichi(blogDataMichi);
-
-                const commentsResponseMichi = await fetch(`http://localhost:8081/api/blogs/${uuid}/comments`);
-                if (!commentsResponseMichi.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                const commentsDataMichi: Comment[] = await commentsResponseMichi.json();
-                setCommentsMichi(commentsDataMichi);
-            } catch (error) {
-                console.error("Error fetching blog:", error);
-            }
-        }
-        fetchBlogMichi();
+        fetchBlog();
     }, [uuid]);
 
-    if (!blogMichi) {
+    const handleMoreClick = async () => {
+        await fetchBlog();
+    };
+
+    if (!blog) {
         return <div>Loading...</div>;
     }
 
     return (
         <div className="container">
             <div className="row">
-                <h3>{blogMichi.title}</h3>
-                <p>{blogMichi.content}</p>
-                <p>{blogMichi.author}</p>
-                <p>{blogMichi.visitors}</p>
+                <h3>{blog.title}</h3>
+                <p>{blog.content}</p>
+                <p>{blog.author}</p>
+                <p>{blog.visitors}</p>
                 <p></p>
                 <h3>Comments</h3>
-                {commentsMichi.map((comment, index) => (
+                {comments.length > 0 && comments.map((comment, index) => (
                     <div key={index}>
                         <p>{comment.content}</p>
                     </div>
                 ))}
             </div>
             <div className="row">
-            <AddComments/>
+                <button onClick={handleMoreClick}>More</button>
+                <AddComments/>
             </div>
         </div>
     );

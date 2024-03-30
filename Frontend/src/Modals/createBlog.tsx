@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Toast } from 'react-bootstrap';
 
-export default function CreateBlog() {
+interface CreateBlogProps {
+    onBlogCreated: () => void; // Funktion zum Aktualisieren der Blogdaten
+}
+
+export default function CreateBlog({ onBlogCreated }: CreateBlogProps) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [author, setAuthor] = useState("");
     const [showToast, setShowToast] = useState(false);
-    const [successToast, setSuccessToast] = useState(false);
 
     const handleSubmit = async () => {
         if (!title || !content) {
@@ -22,16 +25,18 @@ export default function CreateBlog() {
                 body: JSON.stringify({
                     title: title,
                     content: content,
-                    author: author,
+                    author: author || "Anonymous",
                 }),
             });
             if (response.ok) {
-                setSuccessToast(true);
+                onBlogCreated();
+                setShowToast(true);
                 setTitle("");
                 setContent("");
                 setAuthor("");
+                setTimeout(() => setShowToast(false), 3000); // Toast nach 3 Sekunden ausblenden
             } else {
-                console.error("Failed to create event:", response.statusText);
+                console.error("Failed to create blog:", response.statusText);
             }
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -86,18 +91,11 @@ export default function CreateBlog() {
                 </div>
             </div>
 
-            <Toast className="toast-bottom-right" show={showToast} onClose={() => setShowToast(false)}>
-                <Toast.Header>
-                    <strong className="me-auto">Achtung</strong>
-                </Toast.Header>
-                <Toast.Body>Bitte füllen Sie alle Felder aus.</Toast.Body>
-            </Toast>
-
-            <Toast className="toast-bottom-right" show={successToast} onClose={() => setSuccessToast(false)}>
+            <Toast className="toast-bottom-right" show={showToast} onClose={() => setShowToast(false)} delay={5000}> {/* Toast nach 5 Sekunden automatisch ausblenden */}
                 <Toast.Header>
                     <strong className="me-auto">Erfolg</strong>
                 </Toast.Header>
-                <Toast.Body>Event erfolgreich erstellt!</Toast.Body>
+                <Toast.Body>Blog erfolgreich erstellt!</Toast.Body>
             </Toast>
         </div>
     )
