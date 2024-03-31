@@ -13,6 +13,7 @@ function AppRouter() {
         <Route path="/" element={<Blogs />} />
         <Route path="/BlogData/:uuid" element={<BlogDetails />} />
         <Route path="/Statistics" element={<Stats />} />
+        <Route path= "/BlogDetails/:uuid" element= {<BlogDetails/>}/>
       </Routes>
       <Footer />
     </Router>

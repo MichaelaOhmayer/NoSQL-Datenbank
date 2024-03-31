@@ -8,17 +8,18 @@ export default function Header() {
   const handleSearch = async (blog: React.FormEvent) => {
     blog.preventDefault(); // Prevent the form from being submitted in the traditional way
     try {
-      const response = await fetch(`http://localhost:8081/api/blogs?q=${searchTerm}`);
+      const response = await fetch(`http://localhost:8081/api/blogs?q=${encodeURIComponent(searchTerm)}`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       console.log("Response:", response);
       const data = await response.json();
-      if (data && data.length > 0) {
-        navigate(`/BlogDetails/${data[0].id}`); // Navigate to the first blog that matches the search
+      if (data && data.data && data.data.length > 0) {
+        navigate(`/BlogDetails/${data.data[0].uuid}`);
       } else {
         console.error("No blogs found for the search term:", searchTerm);
-      } 
+      }
+      console.log("Response data:", data);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
