@@ -32,9 +32,10 @@ function BlogElement({ blog }: BlogElementProps) {
                     <p><strong>Autor:</strong> {blog.author}</p>
                     <div className="mt-3 mb-3">
                         <Link to={`/BlogData/${blog.uuid}`}>
-                            <button className="btn btn-primary me-2 LoginButton">
-                                More
-                            </button>
+                        <button className="btn btn-primary me-2 LoginButton" onClick={() => console.log(blog?.uuid)}>
+                        More
+                        </button>
+
                         </Link>
                         <button
                             type="button"

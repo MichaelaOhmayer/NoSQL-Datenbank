@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface AddCommentsProps {
-  uuid: string;
+  uuidComment: string;
+  blog: { uuid: string };  //wieso muss überaupt blog in der URl übergeben werden?
 }
 
-export default function AddComments({ uuid }: AddCommentsProps) {
+export default function AddComments({ uuid, blog }: AddCommentsProps) {
   const navigate = useNavigate();
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
@@ -23,7 +24,7 @@ export default function AddComments({ uuid }: AddCommentsProps) {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:8081/api/blogs/${uuid}/comments`, {
+      const response = await fetch(`http://localhost:8081/api/blogs/${blog.uuid}/comments`, {   //wieso muss überaupt blog in der URl übergeben werden?
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +42,7 @@ export default function AddComments({ uuid }: AddCommentsProps) {
       setContent("");
       setAuthor("");     
 
-      navigate(`/blogs/${uuid}`); // Redirect to blog details page after adding comment
+      navigate(`/blogs/${uuid}`); // Nach dem Hinzufügen des Kommentars zur Blog-Detailseite weiterleiten
     } catch (error) {
       console.error("Error adding comment:", error);
     } finally {

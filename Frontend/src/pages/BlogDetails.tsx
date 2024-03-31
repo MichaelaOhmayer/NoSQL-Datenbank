@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom';
 import AddComments from '../Modals/addComment';
 
 interface Comment {
-    uuid: string;
+    uuidComment: string;
     author: string;
     content: string;
 }
 
 interface BlogData {
-    uuid: string;
+    uuidBlog: string;
     author: string;
     content: string;
     title: string;
@@ -18,20 +18,21 @@ interface BlogData {
 }
 
 export default function BlogDetails() {
-    const { uuid } = useParams<{ uuid?: string }>();
+    const { uuidBlog } = useParams<{ uuidBlog?: string }>(); // Machen Sie uuid optional
+    const { uuidComment } = useParams<{ uuidComment?: string }>(); // Machen Sie uuid optional
     const [blog, setBlog] = useState<BlogData | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
 
     useEffect(() => {
-        if (!uuid) return;
+        if (!uuidBlog) return; // Überprüfen, ob uuid vorhanden ist
 
         async function fetchBlog() {
             try{
-                const response = await fetch(`http://localhost:8081/api/blogs/${uuid}`);                       
+                const response = await fetch(`http://localhost:8081/api/blogs/${uuidBlog}`);                       
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
-                const data = await response.json();
+                const data: BlogData = await response.json();
                 setBlog(data);
                 console.log(data);
             } catch (error) {
@@ -40,14 +41,14 @@ export default function BlogDetails() {
         }
 
         fetchBlog();
-    }, [uuid]);
+    }, [uuidBlog]);
 
     useEffect(() => {
-        if (!uuid) return;
+        if (!uuidComment) return; // Überprüfen, ob uuid vorhanden ist
     
         async function fetchComments() {
             try {
-                const CommentsResponse = await fetch(`http://localhost:8081/api/blogs/${uuid}/comments`);
+                const CommentsResponse = await fetch(`http://localhost:8081/api/blogs/${uuidComment}/comments`);
                 if (!CommentsResponse.ok) {
                     throw new Error("Network response was not ok");
                 }
@@ -60,9 +61,9 @@ export default function BlogDetails() {
         }
     
         fetchComments();
-    }, [uuid]);
+    }, [uuidComment]);
 
-    if (!blog || !uuid) {
+    if (!blog || !uuidComment) {
         return <div>Loading...</div>;
     }
 
@@ -82,7 +83,7 @@ export default function BlogDetails() {
                 ))}
             </div>
             <div className="row">
-                <AddComments uuid={uuid} />
+                <AddComments uuid={uuidComment} blog={blog} />
             </div>
         </div>
     );
