@@ -3,8 +3,6 @@ FROM python:3.12
 WORKDIR /app
 COPY . .
 
-RUN ls -al
-
 RUN pip install --no-cache-dir -r api/requirements.txt
 
 EXPOSE 8081

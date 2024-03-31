@@ -17,11 +17,7 @@ interface BlogData {
 }
 
 function BlogElement({ blog }: BlogElementProps) {
-    const [showModal, setShowModal] = useState(false);
-
-    const handleDeleteClick = () => {
-        setShowModal(true);
-    };
+    const [showModal] = useState(false);
 
     return (
         <div className="col-md-4 justify-content-center"> 
@@ -37,13 +33,7 @@ function BlogElement({ blog }: BlogElementProps) {
                         </button>
 
                         </Link>
-                        <button
-                            type="button"
-                            className="btn btn-primary LoginButton"
-                            onClick={handleDeleteClick}
-                        >
-                            Löschen
-                        </button>
+                        
                         {showModal && <DeleteBlog uuid={blog.uuid} />}
                     </div>
                 </div>

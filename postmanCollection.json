@@ -112,13 +112,13 @@
 							"type": "apikey",
 							"apikey": [
 								{
-									"key": "in",
-									"value": "header",
+									"key": "value",
+									"value": "ApiKey <secret>",
 									"type": "string"
 								},
 								{
-									"key": "value",
-									"value": "<secret>",
+									"key": "in",
+									"value": "header",
 									"type": "string"
 								},
 								{
@@ -218,13 +218,13 @@
 							"type": "apikey",
 							"apikey": [
 								{
-									"key": "in",
-									"value": "header",
+									"key": "value",
+									"value": "ApiKey <secret>",
 									"type": "string"
 								},
 								{
-									"key": "value",
-									"value": "<secret>",
+									"key": "in",
+									"value": "header",
 									"type": "string"
 								},
 								{

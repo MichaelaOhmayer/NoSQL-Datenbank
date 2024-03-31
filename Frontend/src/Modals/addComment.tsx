@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-interface AddCommentsProps {
-  uuidComment: string;
-  blog: { uuid: string };  //wieso muss überaupt blog in der URl übergeben werden?
-}
-
-export default function AddComments({ uuid, blog }: AddCommentsProps) {
-  const navigate = useNavigate();
+export default function AddComments() {
+  const { uuid } = useParams<{ uuid: string }>();
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -20,11 +15,11 @@ export default function AddComments({ uuid, blog }: AddCommentsProps) {
       setShowToast(true);
       return;
     }
-    
+    window.location.reload();
     setIsLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:8081/api/blogs/${blog.uuid}/comments`, {   //wieso muss überaupt blog in der URl übergeben werden?
+      const response = await fetch(`http://localhost:8081/api/blogs/${uuid}/comments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +37,9 @@ export default function AddComments({ uuid, blog }: AddCommentsProps) {
       setContent("");
       setAuthor("");     
 
-      navigate(`/blogs/${uuid}`); // Nach dem Hinzufügen des Kommentars zur Blog-Detailseite weiterleiten
+      document.getElementById("staticBackdrop")?.classList.remove("show");
+      document.body.classList.remove("modal-open");
+      document.querySelector(".modal-backdrop")?.remove();
     } catch (error) {
       console.error("Error adding comment:", error);
     } finally {

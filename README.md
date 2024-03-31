@@ -9,7 +9,7 @@ Run these steps to start the app. You can modify the API_KEY variable in the .en
 Start API backend and Redis. It will autoamtically start the build of the api server if it does not yet exist on the local machine.
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 Force a rebuild of the server image on changes. 

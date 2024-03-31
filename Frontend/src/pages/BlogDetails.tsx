@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom';
 import AddComments from '../Modals/addComment';
 
 interface Comment {
-    uuidComment: string;
+    uuid: string;
     author: string;
     content: string;
+    created: string;
 }
 
 interface BlogData {
-    uuidBlog: string;
+    uuid: string;
     author: string;
     content: string;
     title: string;
@@ -18,72 +19,65 @@ interface BlogData {
 }
 
 export default function BlogDetails() {
-    const { uuidBlog } = useParams<{ uuidBlog?: string }>(); // Machen Sie uuid optional
-    const { uuidComment } = useParams<{ uuidComment?: string }>(); // Machen Sie uuid optional
+    const { uuid } = useParams<{ uuid: string }>();
     const [blog, setBlog] = useState<BlogData | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
 
     useEffect(() => {
-        if (!uuidBlog) return; // Überprüfen, ob uuid vorhanden ist
-
         async function fetchBlog() {
             try{
-                const response = await fetch(`http://localhost:8081/api/blogs/${uuidBlog}`);                       
+                const response = await fetch(`http://localhost:8081/api/blogs/${uuid}`);
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
-                const data: BlogData = await response.json();
-                setBlog(data);
-                console.log(data);
-            } catch (error) {
-                console.error("Error fetching blog:", error);
-            }
-        }
+                const body = await response.json();
+                setBlog(body.data);
 
-        fetchBlog();
-    }, [uuidBlog]);
-
-    useEffect(() => {
-        if (!uuidComment) return; // Überprüfen, ob uuid vorhanden ist
-    
-        async function fetchComments() {
-            try {
-                const CommentsResponse = await fetch(`http://localhost:8081/api/blogs/${uuidComment}/comments`);
+                const CommentsResponse = await fetch(`http://localhost:8081/api/blogs/${uuid}/comments`);
                 if (!CommentsResponse.ok) {
                     throw new Error("Network response was not ok");
                 }
-                const commentsData: Comment[] = await CommentsResponse.json();
+                const commentsBody = await CommentsResponse.json();
+                const commentsData: Comment[] = commentsBody.data;
                 setComments(commentsData);
-                console.log(commentsData);
             } catch (error) {
-                console.error("Error fetching comments:", error);
+            console.error("Error fetching blog:", error);
             }
         }
-    
-        fetchComments();
-    }, [uuidComment]);
+        fetchBlog();
+    }, [uuid]);
 
-    if (!blog || !uuidComment) {
+    if (!blog) {
         return <div>Loading...</div>;
     }
 
     return (
         <div className="container">
             <div className="row">
-                <h3>{blog.title}</h3>
-                <p>{blog.content}</p>
-                <p>{blog.author}</p>
-                <p>{blog.visitors}</p>
+                <h3><strong>Blogtitel:</strong> {blog.title}</h3>
+                <p></p>
+                <p><strong>Inhalt:</strong> {blog.content}</p>
+                <p><strong>Autor:</strong> {blog.author}</p>
+                <p><strong>Besucheranzahl des Blogs:</strong> {blog.visitors}</p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
                 <h3>Kommentare</h3>
+                <p></p>
+                <hr/>
                 {comments.length > 0 && comments.map((comment, index) => (
                     <div key={index}>
-                        <p>{comment.author}</p>
-                        <p>{comment.content}</p>
+                        <p></p>
+                        <p><strong>Autor:</strong> {comment.author}</p>
+                        <p><strong>Inhalt:</strong> {comment.content}</p>
+                        <p></p>
+                        <hr/>
                     </div>
                 ))}
             </div>
             <div className="row">
-                <AddComments uuid={uuidComment} blog={blog} />
+                <AddComments/>
             </div>
         </div>
     );
