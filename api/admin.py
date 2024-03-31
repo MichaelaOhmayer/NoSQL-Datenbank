@@ -1,7 +1,7 @@
 import os
 from fastapi import HTTPException
 
-admin_key = os.environ.get("ADMIN_KEY")
+admin_key = os.environ.get("ADMIN_KEY") #isnt used in the UI due to the fact an admin usually has access to the backend to delte comments and blogs manually if needed
 
 # Validate that the user sent a valid (let's assume also rotated) admin api key. 
 # A real auth prodiver should be used in production instead.
